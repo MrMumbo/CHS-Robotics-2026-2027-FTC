@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Classes.Hardware;
+import org.firstinspires.ftc.teamcode.Hardware.Hardware;
 
 @TeleOp(name="Drive Logic", group="Teleop")
 public class Drive extends OpMode {

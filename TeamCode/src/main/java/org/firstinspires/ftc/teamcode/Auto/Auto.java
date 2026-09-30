@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Classes.Hardware;
+import org.firstinspires.ftc.teamcode.Hardware.Hardware;
 
 @Autonomous(name="Basic Auto", group="Autonomous")
 public class Auto extends LinearOpMode {
