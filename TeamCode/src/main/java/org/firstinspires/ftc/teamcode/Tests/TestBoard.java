@@ -6,14 +6,17 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.teamcode.Hardware.TestBoardHw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @TeleOp(name="Test Board", group="Teleop")
 public class TestBoard extends OpMode {
     TestBoardHw hw = new TestBoardHw();
+    List<Double> values = new ArrayList<>();
 
 
     public void init() {
         hw.declareHardware(hardwareMap);
-
     }
 
     public void loop()
@@ -43,14 +46,8 @@ public class TestBoard extends OpMode {
             hw.servo.setPosition(0.0);
 
         }
-//        if (colors.blue > colors.red && colors.blue > colors.green)
-//        {
-//            hw.motor.setVelocity(0);
-//        }
-//        else
-//        {
-//            hw.motor.setVelocity(hw.motor.getVelocity()+(gamepad1.left_stick_y*50));
-//        }
+        values = hw.webcam.getValues(32,true);
+
         telemetry.addData("Blue: ", colors.blue);
         telemetry.addData("red: ", colors.red);
         telemetry.addData("green: ", colors.green);

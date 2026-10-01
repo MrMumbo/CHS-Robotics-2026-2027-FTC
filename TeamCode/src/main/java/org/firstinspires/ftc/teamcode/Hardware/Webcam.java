@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagClusterDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
@@ -82,7 +83,7 @@ public class Webcam {
         telemetry.update();
     }
 
-    public List getValues(int specifiedID) {
+    public List<Double> getValues(int specifiedID) {
         List<AprilTagDetection> currentDetections = apriltag.getDetections();
 
         double tx = 0;
@@ -96,18 +97,34 @@ public class Webcam {
         double elevation = 0;
 
         for (AprilTagDetection detection : currentDetections) {
-            AprilTagSingleDetection singleDet = (AprilTagSingleDetection) detection;
+            if (detection instanceof AprilTagSingleDetection) {
+                AprilTagSingleDetection singleDet = (AprilTagSingleDetection) detection;
 
-            if (singleDet.metadata != null && singleDet.id == specifiedID) {
-                tx = singleDet.ftcPose.x;
-                ty = singleDet.ftcPose.y;
-                tz = singleDet.ftcPose.z;
-                pitch = singleDet.ftcPose.pitch;
-                roll = singleDet.ftcPose.roll;
-                yaw = singleDet.ftcPose.yaw;
-                range = singleDet.ftcPose.range;
-                bearing = singleDet.ftcPose.bearing;
-                elevation = singleDet.ftcPose.elevation;
+                if (singleDet.metadata != null && singleDet.id == specifiedID) {
+                    tx = singleDet.ftcPose.x;
+                    ty = singleDet.ftcPose.y;
+                    tz = singleDet.ftcPose.z;
+                    pitch = singleDet.ftcPose.pitch;
+                    roll = singleDet.ftcPose.roll;
+                    yaw = singleDet.ftcPose.yaw;
+                    range = singleDet.ftcPose.range;
+                    bearing = singleDet.ftcPose.bearing;
+                    elevation = singleDet.ftcPose.elevation;
+                }
+            } else {
+                AprilTagClusterDetection clusterDet = (AprilTagClusterDetection) detection;
+
+                if (clusterDet.metadata != null) {
+                    tx = clusterDet.ftcPose.x;
+                    ty = clusterDet.ftcPose.y;
+                    tz = clusterDet.ftcPose.z;
+                    pitch = clusterDet.ftcPose.pitch;
+                    roll = clusterDet.ftcPose.roll;
+                    yaw = clusterDet.ftcPose.yaw;
+                    range = clusterDet.ftcPose.range;
+                    bearing = clusterDet.ftcPose.bearing;
+                    elevation = clusterDet.ftcPose.elevation;
+                }
             }
         }
 
@@ -126,7 +143,7 @@ public class Webcam {
         return webcam;
     }
 
-    public List getValues(int specifiedID, boolean provideTelemetry) {
+    public List<Double> getValues(int specifiedID, boolean provideTelemetry) {
         List<AprilTagDetection> currentDetections = apriltag.getDetections();
 
         double tx = 0;
@@ -140,29 +157,33 @@ public class Webcam {
         double elevation = 0;
 
         for (AprilTagDetection detection : currentDetections) {
-            AprilTagSingleDetection singleDet = (AprilTagSingleDetection) detection;
+            if (detection instanceof AprilTagSingleDetection) {
+                AprilTagSingleDetection singleDet = (AprilTagSingleDetection) detection;
 
-            if (singleDet.metadata != null && singleDet.id == specifiedID) {
-                tx = singleDet.ftcPose.x;
-                ty = singleDet.ftcPose.y;
-                tz = singleDet.ftcPose.z;
-                pitch = singleDet.ftcPose.pitch;
-                roll = singleDet.ftcPose.roll;
-                yaw = singleDet.ftcPose.yaw;
-                range = singleDet.ftcPose.range;
-                bearing = singleDet.ftcPose.bearing;
-                elevation = singleDet.ftcPose.elevation;
+                if (singleDet.metadata != null && singleDet.id == specifiedID) {
+                    tx = singleDet.ftcPose.x;
+                    ty = singleDet.ftcPose.y;
+                    tz = singleDet.ftcPose.z;
+                    pitch = singleDet.ftcPose.pitch;
+                    roll = singleDet.ftcPose.roll;
+                    yaw = singleDet.ftcPose.yaw;
+                    range = singleDet.ftcPose.range;
+                    bearing = singleDet.ftcPose.bearing;
+                    elevation = singleDet.ftcPose.elevation;
+                }
+            } else {
+                AprilTagClusterDetection clusterDet = (AprilTagClusterDetection) detection;
 
-                if (provideTelemetry) {
-                    telemetry.addData("tx: ", tx);
-                    telemetry.addData("ty: ", ty);
-                    telemetry.addData("tz: ", tz);
-                    telemetry.addData("pitch: ", pitch);
-                    telemetry.addData("roll: ", roll);
-                    telemetry.addData("yaw: ", yaw);
-                    telemetry.addData("range: ", range);
-                    telemetry.addData("bearing: ", bearing);
-                    telemetry.addData("elevation: ", elevation);
+                if (clusterDet.metadata != null) {
+                    tx = clusterDet.ftcPose.x;
+                    ty = clusterDet.ftcPose.y;
+                    tz = clusterDet.ftcPose.z;
+                    pitch = clusterDet.ftcPose.pitch;
+                    roll = clusterDet.ftcPose.roll;
+                    yaw = clusterDet.ftcPose.yaw;
+                    range = clusterDet.ftcPose.range;
+                    bearing = clusterDet.ftcPose.bearing;
+                    elevation = clusterDet.ftcPose.elevation;
                 }
             }
         }
