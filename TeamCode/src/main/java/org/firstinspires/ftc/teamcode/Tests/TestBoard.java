@@ -19,15 +19,38 @@ public class TestBoard extends OpMode {
     public void loop()
     {
         NormalizedRGBA colors = hw.colorSensor.getNormalizedColors();
-
         if (colors.blue > colors.red && colors.blue > colors.green)
+        {
+            hw.motor.setVelocity(-2800);
+        } // L tyren
+        else
         {
             hw.motor.setVelocity(0);
         }
+
+        telemetry.addData("Servo Pos", hw.servo.getPosition());
+        if (colors.red > colors.blue && colors.red > colors.green)
+        {
+            hw.servo.setPosition(1.0);
+        }
+        if (colors.green > colors.blue && colors.green > colors.red)
+        {
+            hw.servo.setPosition(1.0);
+            hw.motor.setVelocity(-2800);
+        }
         else
         {
-            hw.motor.setVelocity(hw.motor.getVelocity()+(gamepad1.left_stick_y*50));
+            hw.servo.setPosition(0.0);
+
         }
+//        if (colors.blue > colors.red && colors.blue > colors.green)
+//        {
+//            hw.motor.setVelocity(0);
+//        }
+//        else
+//        {
+//            hw.motor.setVelocity(hw.motor.getVelocity()+(gamepad1.left_stick_y*50));
+//        }
         telemetry.addData("Blue: ", colors.blue);
         telemetry.addData("red: ", colors.red);
         telemetry.addData("green: ", colors.green);
