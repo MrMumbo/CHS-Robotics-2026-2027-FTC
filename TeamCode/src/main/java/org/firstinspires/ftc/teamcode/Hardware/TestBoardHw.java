@@ -1,16 +1,24 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import android.sax.StartElementListener;
+
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+import java.nio.channels.WritableByteChannel;
+
 public class TestBoardHw {
     public DcMotorEx motor;
     public NormalizedColorSensor colorSensor;
     public Servo servo;
+    public Webcam webcam = new Webcam();
 
     public void declareHardware(HardwareMap hwMap) {
+        webcam.init(hwMap);
         colorSensor = hwMap.get(NormalizedColorSensor.class, "colorSensor");
 
         motor = hwMap.get(DcMotorEx.class, "motor");
