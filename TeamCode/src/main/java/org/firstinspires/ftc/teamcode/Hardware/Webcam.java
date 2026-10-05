@@ -126,6 +126,51 @@ public class Webcam {
         return webcam;
     }
 
+    public double getValues(int specifiedID, Values values) {
+        List<AprilTagDetection> currentDetections = apriltag.getDetections();
+
+        double tx = 0;
+        double ty = 0;
+        double tz = 0;
+        double pitch = 0;
+        double roll = 0;
+        double yaw = 0;
+        double range = 0;
+        double bearing = 0;
+        double elevation = 0;
+
+        for (AprilTagDetection detection : currentDetections) {
+            AprilTagSingleDetection singleDet = (AprilTagSingleDetection) detection;
+
+            if (singleDet.metadata != null && singleDet.id == specifiedID) {
+                tx = singleDet.ftcPose.x;
+                ty = singleDet.ftcPose.y;
+                tz = singleDet.ftcPose.z;
+                pitch = singleDet.ftcPose.pitch;
+                roll = singleDet.ftcPose.roll;
+                yaw = singleDet.ftcPose.yaw;
+                range = singleDet.ftcPose.range;
+                bearing = singleDet.ftcPose.bearing;
+                elevation = singleDet.ftcPose.elevation;
+            }
+        }
+
+        List<Double> webcam = new ArrayList<>();
+
+        webcam.add(tx);
+        webcam.add(ty);
+        webcam.add(tz);
+        webcam.add(pitch);
+        webcam.add(roll);
+        webcam.add(yaw);
+        webcam.add(range);
+        webcam.add(bearing);
+        webcam.add(elevation);
+
+        return webcam.get(values.id);
+    }
+
+
     public List getValues(int specifiedID, boolean provideTelemetry) {
         List<AprilTagDetection> currentDetections = apriltag.getDetections();
 
