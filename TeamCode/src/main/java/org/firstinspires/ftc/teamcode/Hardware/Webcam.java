@@ -285,7 +285,30 @@ public class Webcam {
         return webcam;
     }
 
+    public boolean isActive(int id) {
+        List<AprilTagDetection> currentDetections = apriltag.getDetections();
 
+        for (AprilTagDetection detection : currentDetections) {
+            if (detection instanceof AprilTagSingleDetection)
+            {
+                AprilTagSingleDetection singleDet = (AprilTagSingleDetection) detection;
+
+                if (singleDet.metadata != null && singleDet.id == id) {
+                    return true;
+                }
+            }
+            else
+            {
+                AprilTagClusterDetection clusterDet = (AprilTagClusterDetection) detection;
+
+                if (clusterDet.metadata != null) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
     public void stopCamera()
     {
         visionPortal.close();
