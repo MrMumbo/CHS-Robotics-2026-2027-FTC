@@ -46,6 +46,7 @@ public class TestBoard extends OpMode {
         }
 
         // hw.webcam.getValues(32, true);
+        // Add here
         telemetry.addData("Tx: ", hw.webcam.getValues(32, Values.TX));
 
         telemetry.addData("Blue: ", colors.blue);
