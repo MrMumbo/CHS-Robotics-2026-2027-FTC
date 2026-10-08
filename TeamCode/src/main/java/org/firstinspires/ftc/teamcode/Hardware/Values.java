@@ -11,7 +11,7 @@ public enum Values {
     BEARING(7),
     ELEVATION(8);
 
-    final int id;
+    public final int id;
 
     private Values(int id) {
         this.id = id;

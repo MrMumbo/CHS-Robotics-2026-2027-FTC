@@ -20,6 +20,7 @@ public class TestBoard extends OpMode {
     public void loop()
     {
         NormalizedRGBA colors = hw.colorSensor.getNormalizedColors();
+
         if (colors.blue > colors.red && colors.blue > colors.green)
         {
             hw.motor.setVelocity(-2800);
@@ -45,13 +46,17 @@ public class TestBoard extends OpMode {
 
         }
 
-        // hw.webcam.getValues(32, true);
-        telemetry.addData("Tx: ", hw.webcam.getValues(32, Values.TX));
+        telemetry.addData("Tx: ", hw.webcam.getValues("Red Scoring", Values.BEARING));
 
         telemetry.addData("Blue: ", colors.blue);
         telemetry.addData("red: ", colors.red);
         telemetry.addData("green: ", colors.green);
         telemetry.addData("Velocity: ", hw.motor.getVelocity());
         telemetry.update();
+    }
+
+    public void stop()
+    {
+        hw.webcam.stopCamera();
     }
 }
