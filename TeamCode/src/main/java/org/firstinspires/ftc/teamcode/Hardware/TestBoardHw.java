@@ -1,15 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-import android.sax.StartElementListener;
-
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-import java.nio.channels.WritableByteChannel;
 
 public class TestBoardHw {
     public DcMotorEx motor;
