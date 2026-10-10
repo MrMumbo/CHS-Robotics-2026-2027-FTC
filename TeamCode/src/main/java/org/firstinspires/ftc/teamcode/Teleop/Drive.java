@@ -8,11 +8,11 @@ import org.firstinspires.ftc.teamcode.Hardware.Hardware;
 @TeleOp(name="Drive Logic", group="Teleop")
 public class Drive extends OpMode {
     boolean DpDown= false;
-    Hardware Hardware = new Hardware();
+    Hardware hw = new Hardware();
 
     @Override
     public void init() {
-        Hardware.declareHardware(hardwareMap);
+        hw.declareHardware(hardwareMap);
     }
 
     @Override
@@ -21,9 +21,12 @@ public class Drive extends OpMode {
         if(gamepad1.dpad_down){DpDown = !DpDown;}
 
         if (DpDown) {
-            Hardware.driveFieldRel(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
+            hw.driveFieldRel(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
         } else {
-            Hardware.drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
+            hw.drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
         }
+
+        hw.shootOnKey(gamepad1.right_trigger);
+        hw.intakeOnKey(gamepad1.left_trigger);
     }
 }
