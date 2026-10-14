@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.Tests;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.teamcode.Hardware.TestBoardHw;
 import org.firstinspires.ftc.teamcode.Hardware.Values;
-
 @TeleOp(name="Test Board", group="Teleop")
 public class TestBoard extends OpMode {
     TestBoardHw hw = new TestBoardHw();
@@ -14,49 +12,23 @@ public class TestBoard extends OpMode {
 
     public void init() {
         hw.declareHardware(hardwareMap);
-
+        hw.limeLight.startCamera();
     }
 
     public void loop()
     {
         NormalizedRGBA colors = hw.colorSensor.getNormalizedColors();
 
-        if (colors.blue > colors.red && colors.blue > colors.green)
-        {
-            hw.motor.setVelocity(-2800);
-        }
-        else
-        {
-            hw.motor.setVelocity(0);
-        }
+        hw.motor.setVelocity(100 * hw.limeLight.getValues().getTx());
 
-        telemetry.addData("Servo Pos", hw.servo.getPosition());
-        if (colors.red > colors.blue && colors.red > colors.green)
-        {
-            hw.servo.setPosition(1.0);
-        }
-        if (colors.green > colors.blue && colors.green > colors.red)
-        {
-            hw.servo.setPosition(1.0);
-            hw.motor.setVelocity(-2800);
-        }
-        else
-        {
-            hw.servo.setPosition(0.0);
-
-        }
-
-        telemetry.addData("Tx: ", hw.webcam.getValues("RED SCORING", Values.BEARING));
-
-        telemetry.addData("Blue: ", colors.blue);
-        telemetry.addData("red: ", colors.red);
-        telemetry.addData("green: ", colors.green);
+        telemetry.addData("Tx: ", hw.limeLight.getValues().getTx());
+        telemetry.addData("Ty: ", hw.limeLight.getValues().getTy());
         telemetry.addData("Velocity: ", hw.motor.getVelocity());
         telemetry.update();
     }
 
     public void stop()
     {
-        hw.webcam.stopCamera();
+        hw.limeLight.stopCamera();
     }
 }

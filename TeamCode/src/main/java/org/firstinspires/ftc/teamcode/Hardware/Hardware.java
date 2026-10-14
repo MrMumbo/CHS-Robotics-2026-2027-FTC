@@ -23,13 +23,11 @@ public class Hardware {
     public DcMotor backLeft;
     public DcMotorEx intake;
     public DcMotorEx flyWheel;
+    public LimeLight limeLight = new LimeLight();
     public IMU imu;
 
     public void declareHardware(HardwareMap hwMap) {
-        // Temp color Test
-
-        // Right Shoot
-        // Left Intake
+        limeLight.init(hwMap);
 
         frontRight = hwMap.get(DcMotor.class, "frontRight");
         frontLeft = hwMap.get(DcMotor.class, "frontLeft");
@@ -55,6 +53,13 @@ public class Hardware {
         frontLeft.setPower(-x - y - r);
         backRight.setPower(x + y - r);
         backLeft.setPower(x - y - r);
+    }
+
+    public void driveWithLimeLight(float x, float y) {
+        frontRight.setPower(x - y + (limeLight.getValues().getTx() / 50));
+        frontLeft.setPower(-x - y - (limeLight.getValues().getTx() / 50));
+        backRight.setPower(x + y - (limeLight.getValues().getTx() / 50));
+        backLeft.setPower(x - y - (limeLight.getValues().getTx() / 50));
     }
 
     public void shootOnKey(float gamepadControl)

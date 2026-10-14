@@ -18,6 +18,9 @@ public class colorSensorDrive extends OpMode {
     }
 
     public void loop() {
+
+    }
+}
 //        NormalizedRGBA colors = hw.colorSensor.getNormalizedColors();
 //
 //        telemetry.addData("Distance: ", distanceINCH = ((DistanceSensor) hw.colorSensor).getDistance(DistanceUnit.INCH));
@@ -32,5 +35,3 @@ public class colorSensorDrive extends OpMode {
 //            telemetry.addLine("Blue");
 //        }
 //        telemetry.update();
-    }
-}
