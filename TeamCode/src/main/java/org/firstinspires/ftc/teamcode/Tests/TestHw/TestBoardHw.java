@@ -1,10 +1,11 @@
-package org.firstinspires.ftc.teamcode.Hardware;
+package org.firstinspires.ftc.teamcode.Tests.TestHw;
 
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.Vision.LimeLight;
 
 public class TestBoardHw {
     public DcMotorEx motor;
@@ -14,7 +15,7 @@ public class TestBoardHw {
     public LimeLight limeLight = new LimeLight();
 
     public void declareHardware(HardwareMap hwMap) {
-        limeLight.init(hwMap);
+        limeLight.initLL(hwMap);
         colorSensor = hwMap.get(NormalizedColorSensor.class, "colorSensor");
 
         motor = hwMap.get(DcMotorEx.class, "motor");

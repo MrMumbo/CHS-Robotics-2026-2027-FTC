@@ -3,8 +3,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
-import org.firstinspires.ftc.teamcode.Hardware.TestBoardHw;
-import org.firstinspires.ftc.teamcode.Hardware.Values;
+import org.firstinspires.ftc.teamcode.Tests.TestHw.TestBoardHw;
+
 @TeleOp(name="Test Board", group="Teleop")
 public class TestBoard extends OpMode {
     TestBoardHw hw = new TestBoardHw();
@@ -19,10 +19,10 @@ public class TestBoard extends OpMode {
     {
         NormalizedRGBA colors = hw.colorSensor.getNormalizedColors();
 
-        hw.motor.setVelocity(100 * hw.limeLight.getValues().getTx());
+        hw.motor.setVelocity(100 * hw.limeLight.getTagValues(32).getTx());
 
-        telemetry.addData("Tx: ", hw.limeLight.getValues().getTx());
-        telemetry.addData("Ty: ", hw.limeLight.getValues().getTy());
+        telemetry.addData("Tx: ", hw.limeLight.getTagValues(32).getTx());
+        telemetry.addData("Ty: ", hw.limeLight.getTagValues(32).getTy());
         telemetry.addData("Velocity: ", hw.motor.getVelocity());
         telemetry.update();
     }

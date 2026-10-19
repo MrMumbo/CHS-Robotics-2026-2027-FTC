@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Hardware;
 public class Drive extends OpMode {
     boolean DpDown= false;
     Hardware hw = new Hardware();
+    double intakePos = 0;
 
     @Override
     public void init() {
@@ -18,20 +19,40 @@ public class Drive extends OpMode {
 
     @Override
     public void loop() {
-        // Button Toggles Logic
+
+        /* TODO:
+           Add Enum for Red and Blue tips and IDs
+           Develop y tracking and hive flip tracking system using getPoseY()
+           Maybe: Get the field maps switching depending on hive flips
+         */
+
+        hw.updateVision();
+
         if(gamepad1.dpadDownWasPressed()){DpDown = !DpDown;}
 
         if (DpDown) {
             hw.drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
         } else {
-            hw.driveWithLimeLight(gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            hw.driveWithLimeLightGoalCorrection(gamepad1.left_stick_x, -gamepad1.left_stick_y, 32);
         }
 
         hw.shootOnKey(gamepad1.right_trigger);
         hw.intakeOnKey(gamepad1.left_trigger);
 
-        telemetry.addData("Tx: ", hw.limeLight.getValues().getTx());
-        telemetry.addData("Ty: ", hw.limeLight.getValues().getTy());
+        if (gamepad1.dpadLeftWasPressed())
+        {
+            intakePos -= 0.1;
+        }
+        else if (gamepad1.dpadRightWasPressed())
+        {
+            intakePos += 0.1;
+        }
+
+        hw.liftBalls(gamepad1.left_bumper);
+
+        telemetry.addData("Tx: ", hw.getTagValues(32).getTx());
+        telemetry.addData("Ty: ", hw.getTagValues(32).getTy());
+        telemetry.addData("Servo Pos: ", intakePos);
         telemetry.update();
     }
 }

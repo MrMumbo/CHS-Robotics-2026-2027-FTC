@@ -3,18 +3,18 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Vision.LimeLight;
 
-public class Hardware {
+public class Hardware extends LimeLight {
 
     ElapsedTime Movetimer = new ElapsedTime();
     public DcMotor frontRight;
@@ -23,16 +23,18 @@ public class Hardware {
     public DcMotor backLeft;
     public DcMotorEx intake;
     public DcMotorEx flyWheel;
+    public Servo indexer;
     public LimeLight limeLight = new LimeLight();
     public IMU imu;
 
     public void declareHardware(HardwareMap hwMap) {
-        limeLight.init(hwMap);
+        limeLight.initLL(hwMap);
 
         frontRight = hwMap.get(DcMotor.class, "frontRight");
         frontLeft = hwMap.get(DcMotor.class, "frontLeft");
         backRight = hwMap.get(DcMotor.class, "backRight");
         backLeft = hwMap.get(DcMotor.class, "backLeft");
+        indexer = hwMap.get(Servo.class, "indexer");
         intake = hwMap.get(DcMotorEx.class, "intake");
         flyWheel = hwMap.get(DcMotorEx.class, "flyWheel");
         backRight.setDirection(REVERSE);
@@ -55,11 +57,11 @@ public class Hardware {
         backLeft.setPower(x - y - r);
     }
 
-    public void driveWithLimeLight(float x, float y) {
-        frontRight.setPower(x - y + (limeLight.getValues().getTx() / 50));
-        frontLeft.setPower(-x - y - (limeLight.getValues().getTx() / 50));
-        backRight.setPower(x + y - (limeLight.getValues().getTx() / 50));
-        backLeft.setPower(x - y - (limeLight.getValues().getTx() / 50));
+    public void driveWithLimeLightGoalCorrection(float x, float y, int ID) {
+        frontRight.setPower(x - y + (limeLight.getTagValues(ID).getTx() / 50));
+        frontLeft.setPower(-x - y - (limeLight.getTagValues(ID).getTx() / 50));
+        backRight.setPower(x + y - (limeLight.getTagValues(ID).getTx() / 50));
+        backLeft.setPower(x - y - (limeLight.getTagValues(ID).getTx() / 50));
     }
 
     public void shootOnKey(float gamepadControl)
@@ -70,6 +72,15 @@ public class Hardware {
     public void intakeOnKey(float gamepadControl)
     {
         intake.setVelocity(gamepadControl * -2800);
+    }
+
+    public void liftBalls(boolean gamepadControl) {
+        if (gamepadControl){
+            indexer.setPosition(0.6);
+        }
+        else {
+            indexer.setPosition(0.3);
+        }
     }
 
     public void driveTime(float x, float y, float r, float time) {

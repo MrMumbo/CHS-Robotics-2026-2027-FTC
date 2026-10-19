@@ -3,8 +3,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Hardware.Hardware;
-import org.firstinspires.ftc.teamcode.Hardware.RevTestHw;
+import org.firstinspires.ftc.teamcode.Tests.TestHw.RevTestHw;
 
 @TeleOp(name="RevTestMotor", group="Teleop")
 public class RevTest extends OpMode {
