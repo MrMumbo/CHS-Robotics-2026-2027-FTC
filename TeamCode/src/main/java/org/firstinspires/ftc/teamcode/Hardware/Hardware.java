@@ -58,10 +58,10 @@ public class Hardware extends LimeLight {
     }
 
     public void driveWithLimeLightGoalCorrection(float x, float y, int ID) {
-        frontRight.setPower(x - y + (limeLight.getTagValues(ID).getTx() / 50));
-        frontLeft.setPower(-x - y - (limeLight.getTagValues(ID).getTx() / 50));
-        backRight.setPower(x + y - (limeLight.getTagValues(ID).getTx() / 50));
-        backLeft.setPower(x - y - (limeLight.getTagValues(ID).getTx() / 50));
+        frontRight.setPower(x - y + (getTagValues(ID).getTx() / 50));
+        frontLeft.setPower(-x - y - (getTagValues(ID).getTx() / 50));
+        backRight.setPower(x + y - (getTagValues(ID).getTx() / 50));
+        backLeft.setPower(x - y - (getTagValues(ID).getTx() / 50));
     }
 
     public void shootOnKey(float gamepadControl)

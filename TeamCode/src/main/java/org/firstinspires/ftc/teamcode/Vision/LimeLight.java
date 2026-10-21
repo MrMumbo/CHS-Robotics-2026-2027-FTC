@@ -12,7 +12,7 @@ public class LimeLight {
     /* Useful methods:
        getTargetPoseRobotSpace()
        getRobotPoseFieldSpace()
-       uploadFieldmap(fieldMap, null)
+       boolean uploaded = uploadFieldmap(fieldMap, null)
      */
     public Limelight3A limelight3A;
 
@@ -21,7 +21,7 @@ public class LimeLight {
     public void initLL(HardwareMap hwMap)
     {
         limelight3A = hwMap.get(Limelight3A.class, "limelight");
-        limelight3A.pipelineSwitch(8);
+        limelight3A.pipelineSwitch(0);
     }
 
     public void updateVision()

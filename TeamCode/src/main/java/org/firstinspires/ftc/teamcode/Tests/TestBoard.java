@@ -21,9 +21,8 @@ public class TestBoard extends OpMode {
 
         hw.motor.setVelocity(100 * hw.limeLight.getTagValues(32).getTx());
 
-        telemetry.addData("Tx: ", hw.limeLight.getTagValues(32).getTx());
-        telemetry.addData("Ty: ", hw.limeLight.getTagValues(32).getTy());
-        telemetry.addData("Velocity: ", hw.motor.getVelocity());
+        telemetry.addData("Tx: ", hw.limeLight.getTagValues(30).getTx());
+        telemetry.addData("Ty: ", hw.limeLight.getTagValues(30).getTy());
         telemetry.update();
     }
 

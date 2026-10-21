@@ -22,7 +22,7 @@ public class Drive extends OpMode {
 
         /* TODO:
            Add Enum for Red and Blue tips and IDs
-           Develop y tracking and hive flip tracking system using getPoseY()
+           Develop y tracking and hive flip tracking system using getAprilTagPoseY()
            Maybe: Get the field maps switching depending on hive flips
          */
 
@@ -33,7 +33,7 @@ public class Drive extends OpMode {
         if (DpDown) {
             hw.drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
         } else {
-            hw.driveWithLimeLightGoalCorrection(gamepad1.left_stick_x, -gamepad1.left_stick_y, 32);
+            hw.driveWithLimeLightGoalCorrection(gamepad1.left_stick_x, -gamepad1.left_stick_y, 30);
         }
 
         hw.shootOnKey(gamepad1.right_trigger);
@@ -52,6 +52,7 @@ public class Drive extends OpMode {
 
         telemetry.addData("Tx: ", hw.getTagValues(32).getTx());
         telemetry.addData("Ty: ", hw.getTagValues(32).getTy());
+        telemetry.addData("Tag ID 30 y pose: ", hw.getAprilTagPoseY(32));
         telemetry.addData("Servo Pos: ", intakePos);
         telemetry.update();
     }
