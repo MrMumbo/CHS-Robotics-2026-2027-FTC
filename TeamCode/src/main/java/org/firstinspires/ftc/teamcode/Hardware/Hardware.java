@@ -51,17 +51,10 @@ public class Hardware extends LimeLight {
     }
 
     public void drive(float x, float y, float r) {
-        frontRight.setPower(x - y + r);
+        frontRight.setPower(-x + y - r);
         frontLeft.setPower(-x - y - r);
         backRight.setPower(x + y - r);
-        backLeft.setPower(x - y - r);
-    }
-
-    public void driveWithLimeLightGoalCorrection(float x, float y, int ID) {
-        frontRight.setPower(x - y + (getTagValues(ID).getTx() / 50));
-        frontLeft.setPower(-x - y - (getTagValues(ID).getTx() / 50));
-        backRight.setPower(x + y - (getTagValues(ID).getTx() / 50));
-        backLeft.setPower(x - y - (getTagValues(ID).getTx() / 50));
+        backLeft.setPower(-x + y + r);
     }
 
     public void shootOnKey(float gamepadControl)
@@ -71,15 +64,15 @@ public class Hardware extends LimeLight {
 
     public void intakeOnKey(float gamepadControl)
     {
-        intake.setVelocity(gamepadControl * -2800);
+        intake.setVelocity(gamepadControl * 2800);
     }
 
-    public void liftBalls(boolean gamepadControl) {
-        if (gamepadControl){
-            indexer.setPosition(0.6);
+    public void liftBalls(int gamepadControl) {
+        if (gamepadControl == 1){
+            indexer.setPosition(0.3);
         }
         else {
-            indexer.setPosition(0.3);
+            indexer.setPosition(0.6);
         }
     }
 

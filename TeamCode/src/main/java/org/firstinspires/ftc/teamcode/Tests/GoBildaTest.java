@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Tests.TestHw.GoBildaHw;
-@TeleOp(name="GoBildaTest", group="Teleop")
+@TeleOp(name="GoBildaTest", group="Tests")
 
 public class GoBildaTest extends OpMode {
     GoBildaHw hw = new GoBildaHw();

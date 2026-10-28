@@ -7,9 +7,8 @@ import org.firstinspires.ftc.teamcode.Hardware.Hardware;
 
 @TeleOp(name="Drive Logic", group="Teleop")
 public class Drive extends OpMode {
-    boolean DpDown= false;
     Hardware hw = new Hardware();
-    double intakePos = 0;
+    ButtonMapping controller = new ButtonMapping();
 
     @Override
     public void init() {
@@ -19,6 +18,7 @@ public class Drive extends OpMode {
 
     @Override
     public void loop() {
+        controller.UpdateButtonMap(gamepad1, 0);
 
         /* TODO:
            Add Enum for Red and Blue tips and IDs
@@ -26,34 +26,15 @@ public class Drive extends OpMode {
            Maybe: Get the field maps switching depending on hive flips
          */
 
-        hw.updateVision();
+        hw.limeLight.updateVision();
 
-        if(gamepad1.dpadDownWasPressed()){DpDown = !DpDown;}
+        hw.drive(controller.axialMovementX, -controller.axialMovementY, controller.rotationalMovement);
 
-        if (DpDown) {
-            hw.drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
-        } else {
-            hw.driveWithLimeLightGoalCorrection(gamepad1.left_stick_x, -gamepad1.left_stick_y, 30);
-        }
+        hw.shootOnKey(controller.shootKey);
+        hw.intakeOnKey(controller.intakeKey);
 
-        hw.shootOnKey(gamepad1.right_trigger);
-        hw.intakeOnKey(gamepad1.left_trigger);
+        hw.liftBalls(controller.flipperKey);
 
-        if (gamepad1.dpadLeftWasPressed())
-        {
-            intakePos -= 0.1;
-        }
-        else if (gamepad1.dpadRightWasPressed())
-        {
-            intakePos += 0.1;
-        }
-
-        hw.liftBalls(gamepad1.left_bumper);
-
-        telemetry.addData("Tx: ", hw.getTagValues(32).getTx());
-        telemetry.addData("Ty: ", hw.getTagValues(32).getTy());
-        telemetry.addData("Tag ID 30 y pose: ", hw.getAprilTagPoseY(32));
-        telemetry.addData("Servo Pos: ", intakePos);
         telemetry.update();
     }
 }

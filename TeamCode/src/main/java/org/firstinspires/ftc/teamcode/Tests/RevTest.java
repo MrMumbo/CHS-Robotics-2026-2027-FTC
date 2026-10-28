@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Tests.TestHw.RevTestHw;
 
-@TeleOp(name="RevTestMotor", group="Teleop")
+@TeleOp(name="RevTestMotor", group="Tests")
 public class RevTest extends OpMode {
     RevTestHw hw = new RevTestHw();
 

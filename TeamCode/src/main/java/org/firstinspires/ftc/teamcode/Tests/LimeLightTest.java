@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Tests.TestHw.LimeLightHw;
 
-@TeleOp(name = "LimeLightTest", group = "Teleop")
+@TeleOp(name = "LimeLightTest", group = "Tests")
 public class LimeLightTest extends OpMode {
     public LimeLightHw hw = new LimeLightHw();
 

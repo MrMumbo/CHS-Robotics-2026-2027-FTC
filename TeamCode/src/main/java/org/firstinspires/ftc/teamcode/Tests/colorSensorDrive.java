@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Hardware.Hardware;
 
-@TeleOp(name="Color Sensor", group="Teleop")
+@TeleOp(name="Color Sensor", group="Tests")
 public class colorSensorDrive extends OpMode {
     Hardware hw = new Hardware();
     double distanceINCH;

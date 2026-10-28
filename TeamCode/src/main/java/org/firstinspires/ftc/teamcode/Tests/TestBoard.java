@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 
 import org.firstinspires.ftc.teamcode.Tests.TestHw.TestBoardHw;
 
-@TeleOp(name="Test Board", group="Teleop")
+@TeleOp(name="Test Board", group="Tests")
 public class TestBoard extends OpMode {
     TestBoardHw hw = new TestBoardHw();
 
