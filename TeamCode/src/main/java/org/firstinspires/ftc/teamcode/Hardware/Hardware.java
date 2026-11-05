@@ -1,8 +1,13 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import static android.os.SystemClock.sleep;
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction.REVERSE;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import com.google.gson.internal.bind.MapTypeAdapterFactory;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -10,8 +15,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.Teleop.Drive;
 import org.firstinspires.ftc.teamcode.Vision.LimeLight;
 
 public class Hardware extends LimeLight {
@@ -37,6 +45,8 @@ public class Hardware extends LimeLight {
         indexer = hwMap.get(Servo.class, "indexer");
         intake = hwMap.get(DcMotorEx.class, "intake");
         flyWheel = hwMap.get(DcMotorEx.class, "flyWheel");
+        flyWheel.setZeroPowerBehavior(BRAKE);
+        flyWheel.setMode(RUN_USING_ENCODER);
         backRight.setDirection(REVERSE);
         imu = hwMap.get(IMU.class, "imu");
         imu = hwMap.get(IMU.class, "imu");
@@ -57,9 +67,42 @@ public class Hardware extends LimeLight {
         backLeft.setPower(-x + y + r);
     }
 
-    public void shootOnKey(float gamepadControl)
+    public void shootOnKey(float gamepadControl, float MaxVel)
     {
-        flyWheel.setVelocity(gamepadControl * 2800);
+        if (Math.abs(flyWheel.getVelocity()) > MaxVel)
+        {
+            flyWheel.setVelocity(0);
+        }
+        else
+        {
+            flyWheel.setVelocity(gamepadControl * MaxVel);
+        }
+    }
+
+    public void autoShoot(float desiredVelocity, Telemetry telemetry)
+    {
+        intake.setVelocity(2800);
+        indexer.setPosition(0.6);
+        flyWheel.setVelocity(desiredVelocity);
+        while ((Math.abs(flyWheel.getVelocity()) < desiredVelocity - 20) || (Math.abs(flyWheel.getVelocity()) > desiredVelocity + 20))
+        {
+            telemetry.addData("Velocity: ", flyWheel.getVelocity());
+            telemetry.update();
+            if (Math.abs(flyWheel.getVelocity()) > desiredVelocity)
+            {
+                flyWheel.setVelocity(0);
+            }
+            else
+            {
+                flyWheel.setVelocity(desiredVelocity);
+            }
+        }
+        flyWheel.setVelocity(desiredVelocity);
+        indexer.setPosition(0.3);
+        sleep(3000);
+        flyWheel.setVelocity(0);
+        intake.setVelocity(0);
+        indexer.setPosition(0.6);
     }
 
     public void intakeOnKey(float gamepadControl)
@@ -68,7 +111,7 @@ public class Hardware extends LimeLight {
     }
 
     public void liftBalls(int gamepadControl) {
-        if (gamepadControl == 1){
+        if (gamepadControl == 0){
             indexer.setPosition(0.3);
         }
         else {
@@ -84,9 +127,9 @@ public class Hardware extends LimeLight {
         backLeft.setZeroPowerBehavior(BRAKE);
         while (Movetimer.seconds() < time) {
             frontRight.setPower(-x + y - r);
-            frontLeft.setPower(x + y + r);
-            backRight.setPower(-x - y + r);
-            backLeft.setPower(x - y - r);
+            frontLeft.setPower(-x - y - r);
+            backRight.setPower(x + y - r);
+            backLeft.setPower(-x + y + r);
         }
         frontRight.setPower(0);
         frontLeft.setPower(0);
