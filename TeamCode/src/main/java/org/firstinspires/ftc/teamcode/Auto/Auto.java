@@ -10,15 +10,47 @@ public class Auto extends LinearOpMode {
 
     Hardware hw = new Hardware();
 
+    int autonNumber = 1;
+
     public void runOpMode() {
-        waitForStart();
+        while (!opModeIsActive())
+        {
+            if (gamepad1.dpadRightWasPressed())
+            {
+                autonNumber++;
+            }
+            if (gamepad1.dpadLeftWasPressed())
+            {
+                autonNumber--;
+            }
+            telemetry.addData("Auto Program: ", autonNumber);
+            telemetry.update();
+        }
         hw.declareHardware(hardwareMap);
 
-        hw.driveTime(0, 1, 0, 0.3F);
-        hw.autoShoot(1080F, telemetry);
-        hw.driveTime(-1, 0.2F, 0, 0.8F);
-        hw.driveTime(-0.85F, 1, 0, 1.05F);
-        hw.driveTime(0, 0.6F, 0, 0.9F);
-        hw.driveTime(-.85F, 0, 0, 0.45F);
-    }
+        if (autonNumber == 1)
+        {
+            // Shoot and Park
+            hw.autoShoot(800, telemetry);
+            hw.driveTime(-1, 0.2F, 0, 0.8F);
+            hw.driveTime(-0.85F, 1, 0, 1.05F);
+            hw.driveTime(0, 0.6F, 0, 0.9F);
+        }
+
+        if (autonNumber == 2)
+        {
+            // Shoot, Intake, Shoot, and Park
+            hw.autoShoot(800, telemetry);
+            hw.autoIntakeStartStop(true);
+            hw.driveTime(-1,.0F,0,1.3F);
+            hw.autoIntakeStartStop(false);
+            hw.driveTime(0,.2F,0,0.8F);
+            hw.driveTime(-0F, 1, 0, 1.05F);
+            hw.driveTime(0, 0.6f, 0.9F,1);
+            hw.driveTime(-1, 0f, 0F,1.3F);
+            hw.driveTime(0, -.7f, 0F,.7f);
+
+
+
+        }    }
 }

@@ -16,7 +16,11 @@ public class ButtonMapping {
 
     public int flipperKey;
 
+    public boolean toggleLLAuto;
+
     public String name;
+
+    public boolean switchAlliance;
     public void UpdateButtonMap(Gamepad controller, int driver)
     {
         if (driver == 0)
@@ -34,6 +38,10 @@ public class ButtonMapping {
             intakeKey = controller.left_bumper ? 1.0f : 0.0f;
 
             flipperKey = controller.left_stick_button ? 0 : 1;
+
+            switchAlliance = controller.xWasPressed();
+
+            toggleLLAuto = controller.aWasPressed();
         }
         if (driver == 1)
         {
@@ -50,6 +58,10 @@ public class ButtonMapping {
             intakeKey = controller.left_trigger;
 
             flipperKey = controller.right_bumper ? 0 : 1;
+
+            switchAlliance = controller.xWasPressed();
+
+            toggleLLAuto = controller.aWasPressed();
         }
     }
 }

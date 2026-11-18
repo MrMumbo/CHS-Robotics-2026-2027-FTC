@@ -49,7 +49,6 @@ public class Hardware extends LimeLight {
         flyWheel.setMode(RUN_USING_ENCODER);
         backRight.setDirection(REVERSE);
         imu = hwMap.get(IMU.class, "imu");
-        imu = hwMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
                 RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
@@ -65,6 +64,24 @@ public class Hardware extends LimeLight {
         frontLeft.setPower(-x - y - r);
         backRight.setPower(x + y - r);
         backLeft.setPower(-x + y + r);
+    }
+
+    public void driveLL(float x, float y, float r, int primeTagID) {
+        if (limeLight.LLActive() && limeLight.LLActive(primeTagID))
+        {
+            double tx = limeLight.getTagValues(primeTagID).getTx();
+            frontRight.setPower(-x + y - (tx / 40));
+            frontLeft.setPower(-x - y - (tx / 40));
+            backRight.setPower(x + y - (tx / 40));
+            backLeft.setPower(-x + y + (tx / 40));
+        }
+        else
+        {
+            frontRight.setPower(-x + y - r);
+            frontLeft.setPower(-x - y - r);
+            backRight.setPower(x + y - r);
+            backLeft.setPower(-x + y + r);
+        }
     }
 
     public void shootOnKey(float gamepadControl, float MaxVel)
@@ -83,26 +100,26 @@ public class Hardware extends LimeLight {
     {
         intake.setVelocity(2800);
         indexer.setPosition(0.6);
-        flyWheel.setVelocity(desiredVelocity);
-        while ((Math.abs(flyWheel.getVelocity()) < desiredVelocity - 20) || (Math.abs(flyWheel.getVelocity()) > desiredVelocity + 20))
+        while ((Math.abs(flyWheel.getVelocity()) < desiredVelocity - 40) || (Math.abs(flyWheel.getVelocity()) > desiredVelocity + 40))
         {
-            telemetry.addData("Velocity: ", flyWheel.getVelocity());
-            telemetry.update();
-            if (Math.abs(flyWheel.getVelocity()) > desiredVelocity)
-            {
-                flyWheel.setVelocity(0);
-            }
-            else
-            {
-                flyWheel.setVelocity(desiredVelocity);
-            }
+            shootOnKey(1, desiredVelocity);
         }
-        flyWheel.setVelocity(desiredVelocity);
         indexer.setPosition(0.3);
         sleep(3000);
         flyWheel.setVelocity(0);
         intake.setVelocity(0);
         indexer.setPosition(0.6);
+    }
+    public void autoIntakeStartStop(boolean startStop)
+    {
+        if(startStop)
+        {
+            intake.setVelocity(2800);
+        }
+        else
+        {
+            intake.setVelocity(0);
+        }
     }
 
     public void intakeOnKey(float gamepadControl)
@@ -138,18 +155,11 @@ public class Hardware extends LimeLight {
     }
 
     public void driveFieldRel(float x, float y, float r) {
-        float theta;
-        float thetaRobot;
-        float thetaDrive;
-        float magnitude = (float) Math.hypot(y, x);
+        float robotHeading = (float) imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        thetaDrive = (float) Math.atan2(y,x);
-        thetaRobot = (float) imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-        theta = thetaDrive - thetaRobot;
+        float rotX = (float) (x * Math.cos(-robotHeading) - y * Math.sin(-robotHeading));
+        float rotY = (float) (x * Math.sin(-robotHeading) + y * Math.cos(-robotHeading));
 
-        float uY = (float) Math.cos(theta) * magnitude;
-        float uX = (float) Math.sin(theta) * magnitude;
-
-        drive(uX, uY, r);
+        drive(rotX, -rotY, r);
     }
 }

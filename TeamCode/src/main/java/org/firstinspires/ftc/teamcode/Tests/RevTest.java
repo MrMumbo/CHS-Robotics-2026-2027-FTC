@@ -17,5 +17,7 @@ public class RevTest extends OpMode {
     public void loop()
     {
         hw.motor.setPower(gamepad1.left_stick_y);
+        hw.flywheel.setPower(gamepad1.right_bumper ? 0 : -1);
+        hw.servo.setPower(gamepad1.right_stick_y);
     }
 }
